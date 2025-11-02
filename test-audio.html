@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Test Audio y Visualizador</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #222;
+            color: white;
+        }
+        
+        .test-container {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #555;
+            border-radius: 5px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background: #45a049;
+        }
+        
+        .mini-equalizer-container {
+            display: flex;
+            align-items: end;
+            height: 50px;
+            gap: 2px;
+            margin: 20px 0;
+            background: rgba(255,255,255,0.1);
+            padding: 10px;
+            border-radius: 5px;
+        }
+        
+        .mini-equalizer-bar {
+            width: 4px;
+            height: 10%;
+            background: linear-gradient(to top, #ff0000, #ff7f00);
+            border-radius: 2px;
+            transition: height 0.1s ease;
+        }
+        
+        @keyframes fallbackEqualize {
+            0% { height: 20%; opacity: 0.6; }
+            15% { height: 70%; opacity: 0.9; }
+            30% { height: 40%; opacity: 0.7; }
+            45% { height: 85%; opacity: 1; }
+            60% { height: 30%; opacity: 0.6; }
+            75% { height: 60%; opacity: 0.8; }
+            90% { height: 25%; opacity: 0.5; }
+            100% { height: 20%; opacity: 0.6; }
+        }
+        
+        .animating .mini-equalizer-bar {
+            animation: fallbackEqualize 1s ease-in-out infinite;
+        }
+        
+        .animating .mini-equalizer-bar:nth-child(2n) {
+            animation-delay: 0.1s;
+        }
+        
+        .animating .mini-equalizer-bar:nth-child(3n) {
+            animation-delay: 0.2s;
+        }
+        
+        .status {
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test de Audio y Visualizador</h1>
+    
+    <div class="test-container">
+        <h3>Audio Stream Test</h3>
+        <audio id="test-audio" src="https://stream.zeno.fm/yg7bvksbfwzuv" preload="auto" controls></audio>
+        <div class="status" id="audio-status">Estado: Listo</div>
+        <button onclick="testAudio()">Test Audio</button>
+        <button onclick="stopAudio()">Stop Audio</button>
+    </div>
+    
+    <div class="test-container">
+        <h3>Visualizador CSS Test</h3>
+        <div class="mini-equalizer-container" id="test-visualizer">
+            <!-- Generar 30 barras -->
+        </div>
+        <div class="status" id="visualizer-status">Estado: Parado</div>
+        <button onclick="testCSSAnimation()">Test Animación CSS</button>
+        <button onclick="stopCSSAnimation()">Stop Animación</button>
+    </div>
+    
+    <div class="test-container">
+        <h3>Web Audio API Test</h3>
+        <div class="status" id="webapi-status">Estado: No inicializado</div>
+        <button onclick="testWebAudioAPI()">Test Web Audio API</button>
+        <button onclick="testRealTimeVisualizer()">Test Visualizador en Tiempo Real</button>
+        <button onclick="stopWebAudio()">Stop Web Audio</button>
+    </div>
+
+    <script>
+        // Generar barras del visualizador
+        const visualizer = document.getElementById('test-visualizer');
+        for (let i = 0; i < 30; i++) {
+            const bar = document.createElement('div');
+            bar.className = 'mini-equalizer-bar';
+            visualizer.appendChild(bar);
+        }
+        
+        const audio = document.getElementById('test-audio');
+        const audioStatus = document.getElementById('audio-status');
+        const visualizerStatus = document.getElementById('visualizer-status');
+        const webapiStatus = document.getElementById('webapi-status');
+        
+        let audioContext;
+        let analyser;
+        let dataArray;
+        let source;
+        let animationId;
+        
+        // Test de audio básico
+        function testAudio() {
+            audioStatus.textContent = 'Estado: Iniciando...';
+            
+            audio.play().then(() => {
+                audioStatus.textContent = 'Estado: ✅ Reproduciendo correctamente';
+                audioStatus.style.background = 'rgba(0,255,0,0.2)';
+            }).catch(error => {
+                audioStatus.textContent = `Estado: ❌ Error: ${error.message}`;
+                audioStatus.style.background = 'rgba(255,0,0,0.2)';
+            });
+        }
+        
+        function stopAudio() {
+            audio.pause();
+            audioStatus.textContent = 'Estado: Pausado';
+            audioStatus.style.background = 'rgba(0,0,0,0.3)';
+        }
+        
+        // Test de animación CSS
+        function testCSSAnimation() {
+            visualizer.classList.add('animating');
+            visualizerStatus.textContent = 'Estado: ✅ Animando con CSS';
+            visualizerStatus.style.background = 'rgba(0,255,0,0.2)';
+        }
+        
+        function stopCSSAnimation() {
+            visualizer.classList.remove('animating');
+            visualizerStatus.textContent = 'Estado: Parado';
+            visualizerStatus.style.background = 'rgba(0,0,0,0.3)';
+        }
+        
+        // Test de Web Audio API
+        function testWebAudioAPI() {
+            try {
+                webapiStatus.textContent = 'Estado: Inicializando Web Audio API...';
+                
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioContext.createAnalyser();
+                
+                // Conectar solo si no está conectado
+                if (!source) {
+                    source = audioContext.createMediaElementSource(audio);
+                    source.connect(analyser);
+                    analyser.connect(audioContext.destination);
+                }
+                
+                analyser.fftSize = 256;
+                const bufferLength = analyser.frequencyBinCount;
+                dataArray = new Uint8Array(bufferLength);
+                
+                webapiStatus.textContent = '✅ Web Audio API inicializado correctamente';
+                webapiStatus.style.background = 'rgba(0,255,0,0.2)';
+                
+            } catch (error) {
+                webapiStatus.textContent = `❌ Error en Web Audio API: ${error.message}`;
+                webapiStatus.style.background = 'rgba(255,0,0,0.2)';
+            }
+        }
+        
+        function testRealTimeVisualizer() {
+            if (!audioContext || !analyser) {
+                webapiStatus.textContent = '❌ Primero inicializa Web Audio API';
+                return;
+            }
+            
+            if (audioContext.state === 'suspended') {
+                audioContext.resume();
+            }
+            
+            // Detener animación CSS
+            stopCSSAnimation();
+            
+            function updateBars() {
+                if (!dataArray) return;
+                
+                analyser.getByteFrequencyData(dataArray);
+                const bars = visualizer.querySelectorAll('.mini-equalizer-bar');
+                const step = Math.floor(dataArray.length / bars.length);
+                
+                bars.forEach((bar, index) => {
+                    const dataIndex = index * step;
+                    const value = dataArray[dataIndex];
+                    const height = (value / 255) * 80 + 10;
+                    bar.style.height = `${height}%`;
+                    bar.style.animation = 'none';
+                });
+                
+                animationId = requestAnimationFrame(updateBars);
+            }
+            
+            updateBars();
+            visualizerStatus.textContent = 'Estado: ✅ Visualizador en tiempo real';
+            visualizerStatus.style.background = 'rgba(0,255,0,0.2)';
+        }
+        
+        function stopWebAudio() {
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+                animationId = null;
+            }
+            
+            const bars = visualizer.querySelectorAll('.mini-equalizer-bar');
+            bars.forEach(bar => {
+                bar.style.height = '10%';
+                bar.style.animation = '';
+            });
+            
+            visualizerStatus.textContent = 'Estado: Parado';
+            visualizerStatus.style.background = 'rgba(0,0,0,0.3)';
+        }
+        
+        // Event listeners para el audio
+        audio.addEventListener('play', () => {
+            console.log('Audio iniciado');
+        });
+        
+        audio.addEventListener('pause', () => {
+            console.log('Audio pausado');
+        });
+        
+        audio.addEventListener('error', (e) => {
+            console.error('Error de audio:', e);
+            audioStatus.textContent = `Estado: ❌ Error de conexión`;
+            audioStatus.style.background = 'rgba(255,0,0,0.2)';
+        });
+        
+        console.log('Test page loaded');
+    </script>
+</body>
+</html>

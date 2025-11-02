@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Test Metadata</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #333;
+            color: white;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .metadata-display {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .song-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin: 10px 0;
+        }
+        
+        .album-cover {
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+        
+        .text-info h2 {
+            margin: 0;
+            color: #4CAF50;
+        }
+        
+        .text-info p {
+            margin: 5px 0;
+            color: #ccc;
+        }
+        
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        #log {
+            background: rgba(0,0,0,0.7);
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎵 Test de Metadata</h1>
+        
+        <div class="metadata-display">
+            <h3>Información Actual:</h3>
+            <div class="song-info">
+                <img id="album-cover" class="album-cover" src="portada.jpg" alt="Carátula">
+                <div class="text-info">
+                    <h2 id="song-title">Cargando título...</h2>
+                    <p id="artist-name">Cargando artista...</p>
+                </div>
+            </div>
+        </div>
+        
+        <button onclick="testMetadataConnection()">📡 Test Conexión Metadata</button>
+        <button onclick="testItunes()">🍎 Test iTunes API</button>
+        <button onclick="clearLog()">🗑️ Limpiar Log</button>
+        
+        <div id="log"></div>
+    </div>
+
+    <script>
+        const songTitle = document.getElementById('song-title');
+        const artistName = document.getElementById('artist-name');
+        const albumCover = document.getElementById('album-cover');
+        const log = document.getElementById('log');
+        
+        function addLog(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            log.innerHTML += `[${timestamp}] ${message}<br>`;
+            log.scrollTop = log.scrollHeight;
+            console.log(message);
+        }
+        
+        function clearLog() {
+            log.innerHTML = '';
+        }
+        
+        function updateMetadata(title, artist, coverUrl = 'portada.jpg') {
+            songTitle.textContent = title;
+            artistName.textContent = artist;
+            albumCover.src = coverUrl;
+            
+            addLog(`📄 Metadata actualizada: ${title} - ${artist}`);
+        }
+        
+        function testMetadataConnection() {
+            addLog('📡 === PROBANDO CONEXIÓN DE METADATA ===');
+            
+            const eventSource = new EventSource('https://api.zeno.fm/mounts/metadata/subscribe/yg7bvksbfwzuv');
+            
+            eventSource.onmessage = function(event) {
+                addLog('📨 Datos recibidos: ' + event.data);
+                
+                try {
+                    const data = JSON.parse(event.data);
+                    if (data.streamTitle) {
+                        addLog('🎵 Stream title: ' + data.streamTitle);
+                        
+                        const parts = data.streamTitle.split(' - ');
+                        if (parts.length >= 2) {
+                            const artist = parts.pop();
+                            const title = parts.join(' - ');
+                            
+                            addLog(`🎤 Artista detectado: ${artist}`);
+                            addLog(`🎵 Título detectado: ${title}`);
+                            
+                            updateMetadata(title, artist);
+                            
+                            // Test iTunes
+                            testItunesForSong(artist, title);
+                            
+                        } else {
+                            addLog('🎵 Título simple: ' + data.streamTitle);
+                            updateMetadata(data.streamTitle, 'Artista desconocido');
+                        }
+                    }
+                } catch (error) {
+                    addLog('❌ Error parseando JSON: ' + error.message);
+                }
+            };
+            
+            eventSource.onerror = function(error) {
+                addLog('❌ Error en EventSource: ' + error.type);
+                eventSource.close();
+            };
+            
+            addLog('✅ Conexión EventSource iniciada');
+            
+            // Cerrar después de 30 segundos
+            setTimeout(() => {
+                eventSource.close();
+                addLog('⏹️ Conexión cerrada después de 30 segundos');
+            }, 30000);
+        }
+        
+        function testItunes() {
+            addLog('🍎 === PROBANDO ITUNES API ===');
+            testItunesForSong('Drake', 'God\'s Plan');
+        }
+        
+        function testItunesForSong(artist, title) {
+            const itunesApiUrl = `https://itunes.apple.com/search?term=${encodeURIComponent(artist + ' ' + title)}&entity=song&limit=1`;
+            
+            addLog(`🔍 Buscando en iTunes: ${artist} - ${title}`);
+            addLog(`📡 URL: ${itunesApiUrl}`);
+            
+            fetch(itunesApiUrl)
+                .then(response => {
+                    addLog(`📥 Respuesta iTunes: ${response.status} ${response.statusText}`);
+                    return response.json();
+                })
+                .then(data => {
+                    addLog(`📊 Resultados encontrados: ${data.resultCount}`);
+                    
+                    if (data.results && data.results.length > 0) {
+                        const result = data.results[0];
+                        addLog(`✅ Carátula encontrada: ${result.artworkUrl100}`);
+                        
+                        if (result.artworkUrl100) {
+                            const albumCoverUrl = result.artworkUrl100.replace('100x100', '600x600');
+                            addLog(`🖼️ URL carátula HD: ${albumCoverUrl}`);
+                            updateMetadata(title, artist, albumCoverUrl);
+                        }
+                    } else {
+                        addLog('❌ No se encontraron resultados en iTunes');
+                    }
+                })
+                .catch(error => {
+                    addLog('❌ Error iTunes API: ' + error.message);
+                });
+        }
+        
+        // Inicialización
+        addLog('📱 Test de metadata cargado');
+        addLog('🔗 URL del stream: https://stream.zeno.fm/yg7bvksbfwzuv');
+        addLog('📡 URL metadata: https://api.zeno.fm/mounts/metadata/subscribe/yg7bvksbfwzuv');
+    </script>
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Control de Volumen Reparado</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+        }
+        
+        .test-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .audio-test {
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .volume-test-section {
+            position: relative;
+            display: inline-block;
+            margin: 50px;
+        }
+        
+        .test-audio {
+            width: 100%;
+            max-width: 400px;
+            margin: 20px 0;
+        }
+        
+        .instructions {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        
+        .instructions h3 {
+            color: #ffeb3b;
+            margin-bottom: 10px;
+        }
+        
+        .instructions ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        
+        .instructions li {
+            margin: 5px 0;
+        }
+        
+        .volume-indicator {
+            margin: 20px 0;
+            padding: 10px;
+            background: rgba(0, 255, 153, 0.2);
+            border-radius: 5px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🔊 Test - Control de Volumen Reparado</h1>
+        <p>Prueba del control de volumen flotante reparado</p>
+        
+        <div class="instructions">
+            <h3>📝 Instrucciones de Prueba:</h3>
+            <ol>
+                <li>Haz clic en el audio de abajo para reproducir música de prueba</li>
+                <li>Haz clic en el botón de volumen (🔊) a la derecha</li>
+                <li>Debería aparecer una barra vertical de volumen</li>
+                <li>Arrastra la barra para ajustar el volumen</li>
+                <li>El porcentaje debe actualizarse en tiempo real</li>
+                <li>El ícono debe cambiar según el nivel de volumen</li>
+            </ol>
+        </div>
+        
+        <div class="audio-test">
+            <h2>🎵 Audio de Prueba</h2>
+            <audio id="audio-player" class="test-audio" controls>
+                <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" type="audio/wav">
+                <source src="https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3" type="audio/mpeg">
+                <!-- Fallback con un tono generado -->
+                Su navegador no soporta el elemento audio.
+            </audio>
+            
+            <div class="volume-indicator" id="volume-display">
+                Volumen actual: <span id="current-volume">100%</span>
+            </div>
+        </div>
+        
+        <div class="volume-test-section">
+            <!-- Control de volumen flotante -->
+            <div class="floating-volume-container">
+                <!-- Botón flotante -->
+                <button class="volume-toggle-btn" id="volume-toggle-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+                        <path d="M3 9v6h4l5 5V4L7 9H3zm7-.17v6.34L7.83 13H5v-2h2.83L10 8.83zM16.5 12A4.5 4.5 0 0014 7.97v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77 0-4.28-2.99-7.86-7-8.77z"/>
+                    </svg>
+                </button>
+                
+                <!-- Contenedor deslizante de la barra -->
+                <div class="volume-slider-container" id="volume-slider-container">
+                    <input type="range" id="mini-volume-slider" min="0" max="1" step="0.01" value="1">
+                    <div class="volume-percentage" id="volume-percentage">100%</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <h3>✅ Verificaciones:</h3>
+            <ul>
+                <li>La barra debe ser visible cuando hagas clic en el botón</li>
+                <li>Debe responder al arrastre del mouse/dedo</li>
+                <li>El volumen del audio debe cambiar en tiempo real</li>
+                <li>El porcentaje debe actualizarse correctamente</li>
+                <li>La barra debe ocultarse al hacer clic fuera</li>
+            </ul>
+        </div>
+        
+        <div style="margin-top: 40px; padding: 20px; background: rgba(255, 255, 255, 0.05); border-radius: 10px;">
+            <h3>🛠️ Estado del Sistema:</h3>
+            <div id="system-status">
+                <p>Audio element: <span id="audio-status">❌</span></p>
+                <p>Volume button: <span id="button-status">❌</span></p>
+                <p>Volume slider: <span id="slider-status">❌</span></p>
+                <p>Event listeners: <span id="events-status">❌</span></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+    <script>
+        // Verificación del sistema
+        document.addEventListener('DOMContentLoaded', function() {
+            // Verificar elementos
+            const audio = document.getElementById('audio-player');
+            const volumeBtn = document.getElementById('volume-toggle-btn');
+            const volumeSlider = document.getElementById('mini-volume-slider');
+            const currentVolumeDisplay = document.getElementById('current-volume');
+            
+            // Actualizar status
+            document.getElementById('audio-status').textContent = audio ? '✅' : '❌';
+            document.getElementById('button-status').textContent = volumeBtn ? '✅' : '❌';
+            document.getElementById('slider-status').textContent = volumeSlider ? '✅' : '❌';
+            
+            // Event listener adicional para mostrar el volumen en tiempo real
+            if (volumeSlider && currentVolumeDisplay) {
+                volumeSlider.addEventListener('input', function() {
+                    const percentage = Math.round(this.value * 100);
+                    currentVolumeDisplay.textContent = percentage + '%';
+                });
+                
+                document.getElementById('events-status').textContent = '✅';
+            }
+            
+            // Log de debug
+            console.log('🔧 Sistema de debug iniciado');
+            console.log('Audio:', audio ? 'ENCONTRADO' : 'NO ENCONTRADO');
+            console.log('Botón volumen:', volumeBtn ? 'ENCONTRADO' : 'NO ENCONTRADO');
+            console.log('Slider volumen:', volumeSlider ? 'ENCONTRADO' : 'NO ENCONTRADO');
+            
+            // Mensaje de ayuda
+            setTimeout(() => {
+                console.log('💡 AYUDA: Si la barra de volumen no funciona, revisa la consola del navegador para errores');
+                console.log('💡 AYUDA: Asegúrate de que el archivo main.js se cargue correctamente');
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

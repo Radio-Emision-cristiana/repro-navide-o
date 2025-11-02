@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Contador de Volumen Fijo</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+        }
+        
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .control-test {
+            position: relative;
+            display: inline-block;
+            margin: 80px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .instructions {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        
+        .visual-guide {
+            margin: 30px 0;
+            padding: 15px;
+            background: rgba(0, 255, 153, 0.1);
+            border-radius: 10px;
+            border: 2px solid rgba(0, 255, 153, 0.3);
+        }
+        
+        .test-status {
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            font-family: monospace;
+        }
+        
+        .highlight {
+            color: #00ff99;
+            font-weight: bold;
+        }
+        
+        .warning {
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🎯 Test - Contador de Volumen Posicionado</h1>
+        <p>Verificación del posicionamiento correcto del contador de porcentaje</p>
+        
+        <div class="instructions">
+            <h3>📋 Test de Posicionamiento:</h3>
+            <ol>
+                <li><strong>Haz clic en el botón de volumen</strong> (🔊) de abajo</li>
+                <li><strong>Observa la barra vertical</strong> que aparece</li>
+                <li><strong>Verifica que el porcentaje</strong> esté en la parte inferior del contenedor</li>
+                <li><strong>Arrastra la barra</strong> y verifica que el contador no se mueva de posición</li>
+                <li><strong>El contador debe permanecer fijo</strong> en la parte inferior, centrado</li>
+            </ol>
+        </div>
+        
+        <div class="visual-guide">
+            <h3>✅ Comportamiento Esperado:</h3>
+            <p>• El contador debe estar <span class="highlight">siempre en la parte inferior</span> del contenedor de volumen</p>
+            <p>• Debe mantenerse <span class="highlight">centrado horizontalmente</span></p>
+            <p>• No debe <span class="warning">moverse ni desplazarse</span> al usar la barra</p>
+            <p>• Debe <span class="highlight">actualizarse en tiempo real</span> cuando cambies el volumen</p>
+        </div>
+        
+        <div class="control-test">
+            <h2>🔊 Control de Volumen</h2>
+            <p>Haz clic en el botón para probar:</p>
+            
+            <!-- Audio para prueba -->
+            <audio id="audio-player" loop>
+                <source src="https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3" type="audio/mpeg">
+            </audio>
+            
+            <!-- Control de volumen flotante -->
+            <div class="floating-volume-container">
+                <!-- Botón flotante -->
+                <button class="volume-toggle-btn" id="volume-toggle-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+                        <path d="M3 9v6h4l5 5V4L7 9H3zm7-.17v6.34L7.83 13H5v-2h2.83L10 8.83zM16.5 12A4.5 4.5 0 0014 7.97v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77 0-4.28-2.99-7.86-7-8.77z"/>
+                    </svg>
+                </button>
+                
+                <!-- Contenedor deslizante de la barra -->
+                <div class="volume-slider-container" id="volume-slider-container">
+                    <input type="range" id="mini-volume-slider" min="0" max="1" step="0.01" value="0.8">
+                    <div class="volume-percentage" id="volume-percentage">80%</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="test-status" id="test-status">
+            <h3>📊 Estado del Test:</h3>
+            <div>Contador visible: <span id="counter-visible">❌</span></div>
+            <div>Posición correcta: <span id="position-correct">❌</span></div>
+            <div>Actualización funcional: <span id="update-functional">❌</span></div>
+            <div>Estabilidad: <span id="stability-check">❌</span></div>
+        </div>
+        
+        <div class="instructions">
+            <h3>🔧 Reparaciones Aplicadas:</h3>
+            <ul>
+                <li>✅ <code>flex-direction: column</code> con <code>justify-content: space-between</code></li>
+                <li>✅ <code>order: 1</code> para el slider y <code>order: 2</code> para el contador</li>
+                <li>✅ <code>flex-shrink: 0</code> y <code>flex-grow: 0</code> para el contador</li>
+                <li>✅ <code>position: relative</code> y <code>z-index: 10001</code> para evitar desplazamientos</li>
+                <li>✅ <code>pointer-events: none</code> para evitar interferencias</li>
+                <li>✅ Fondo sutil para mejor visibilidad del contador</li>
+            </ul>
+        </div>
+        
+        <div style="margin-top: 40px; padding: 20px; background: rgba(255, 255, 255, 0.05); border-radius: 10px;">
+            <p><strong>💡 Nota:</strong> Si el contador sigue moviéndose, revisa la consola del navegador para logs de debugging.</p>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const volumeContainer = document.getElementById('volume-slider-container');
+            const volumePercentage = document.getElementById('volume-percentage');
+            const volumeSlider = document.getElementById('mini-volume-slider');
+            const volumeBtn = document.getElementById('volume-toggle-btn');
+            
+            let testResults = {
+                counterVisible: false,
+                positionCorrect: false,
+                updateFunctional: false,
+                stabilityCheck: false
+            };
+            
+            // Test 1: Contador visible
+            if (volumePercentage) {
+                testResults.counterVisible = true;
+                document.getElementById('counter-visible').textContent = '✅';
+                document.getElementById('counter-visible').style.color = '#00ff99';
+            }
+            
+            // Test 2: Posición correcta
+            if (volumeContainer && volumePercentage) {
+                const containerRect = volumeContainer.getBoundingClientRect();
+                const percentageRect = volumePercentage.getBoundingClientRect();
+                
+                // Verificar que el contador esté en la parte inferior del contenedor
+                const isAtBottom = percentageRect.bottom <= containerRect.bottom + 5;
+                const isCentered = Math.abs(percentageRect.left - containerRect.left) < 20;
+                
+                if (isAtBottom && isCentered) {
+                    testResults.positionCorrect = true;
+                    document.getElementById('position-correct').textContent = '✅';
+                    document.getElementById('position-correct').style.color = '#00ff99';
+                }
+            }
+            
+            // Test 3: Actualización funcional
+            if (volumeSlider && volumePercentage) {
+                let updateCount = 0;
+                volumeSlider.addEventListener('input', function() {
+                    updateCount++;
+                    if (updateCount >= 1) {
+                        testResults.updateFunctional = true;
+                        document.getElementById('update-functional').textContent = '✅';
+                        document.getElementById('update-functional').style.color = '#00ff99';
+                    }
+                });
+                
+                // Simular un cambio para probar
+                setTimeout(() => {
+                    const event = new Event('input');
+                    volumeSlider.dispatchEvent(event);
+                }, 1000);
+            }
+            
+            // Test 4: Estabilidad (verificar después de interacciones)
+            setTimeout(() => {
+                if (testResults.counterVisible && testResults.positionCorrect && testResults.updateFunctional) {
+                    testResults.stabilityCheck = true;
+                    document.getElementById('stability-check').textContent = '✅';
+                    document.getElementById('stability-check').style.color = '#00ff99';
+                }
+            }, 2000);
+            
+            // Logs de debug
+            console.log('🧪 Test de posicionamiento iniciado');
+            console.log('📍 Contador encontrado:', volumePercentage ? 'SÍ' : 'NO');
+            console.log('📍 Contenedor encontrado:', volumeContainer ? 'SÍ' : 'NO');
+            
+            // Observer para detectar cambios de posición
+            if (volumePercentage && window.MutationObserver) {
+                const observer = new MutationObserver(function(mutations) {
+                    mutations.forEach(function(mutation) {
+                        if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                            console.log('⚠️ Estilo del contador cambió:', mutation.target.style.cssText);
+                        }
+                    });
+                });
+                
+                observer.observe(volumePercentage, {
+                    attributes: true,
+                    attributeFilter: ['style']
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎄 Mini Reproductor Navideño ❄️</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="christmas-theme.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: white;
+        }
+        
+        .demo-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px 120px;
+        }
+        
+        .demo-title {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .demo-description {
+            text-align: center;
+            font-size: 1.2em;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+        
+        .features-list {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .features-list h3 {
+            margin-top: 0;
+            color: #00ff99;
+            font-size: 1.5em;
+        }
+        
+        .features-list ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .features-list li {
+            padding: 8px 0;
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .features-list li::before {
+            content: "✨";
+            position: absolute;
+            left: 0;
+        }
+        
+        .test-info {
+            text-align: center;
+            background: rgba(0, 255, 153, 0.1);
+            border: 1px solid rgba(0, 255, 153, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <h1 class="demo-title">🎄 Mini Reproductor Navideño ❄️</h1>
+        <p class="demo-description">
+            🎅 El mini reproductor ahora cuenta con un diseño más elegante y atractivo con efectos visuales modernos 
+            y hermosos efectos navideños con nieve cayendo. ¡Perfecto para la temporada festiva! ❄️
+        </p>
+        
+        <div class="features-list">
+            <h3>🎄 Nuevas Características Navideñas:</h3>
+            <ul>
+                <li>❄️ Hermoso efecto de nieve blanca cayendo en tiempo real</li>
+                <li>🎄 Tema navideño con colores festivos (verdes, rojos, dorados)</li>
+                <li>✨ Decoraciones navideñas sutiles en elementos clave</li>
+                <li>🎅 Mensajes navideños interactivos</li>
+                <li>🔔 Control para activar/desactivar la nieve</li>
+                <li>Diseño glassmorphism mejorado con blur y efectos de transparencia</li>
+                <li>Animaciones suaves y transiciones elegantes</li>
+                <li>Efectos de glow en la portada del álbum durante la reproducción</li>
+                <li>Barra de progreso visual sutil en la parte superior</li>
+                <li>Botones de control más grandes y con mejor respuesta táctil</li>
+                <li>Tipografía mejorada con sombras y mejor legibilidad</li>
+                <li>Efectos hover y animaciones de escala</li>
+                <li>Diseño responsive optimizado para móviles y tablets</li>
+                <li>Efectos de partículas y rotación en el glow de la portada</li>
+                <li>Preservación completa de metadatos y funcionalidad</li>
+            </ul>
+        </div>
+        
+        <div class="test-info">
+            <p><strong>💡 Instrucciones de prueba:</strong></p>
+            <p>Haz clic en el botón de reproducir del mini reproductor en la parte inferior para ver todos los efectos visuales en acción. La portada del álbum brillará, aparecerá la barra de progreso y se activarán todas las animaciones elegantes.</p>
+        </div>
+    </div>
+
+    <!-- Audio player -->
+    <audio id="audio-player" preload="none">
+        <source src="https://stream.zeno.fm/0r0xa792kwzuv" type="audio/mpeg">
+        Tu navegador no soporta la reproducción de audio.
+    </audio>
+
+    <!-- Mini reproductor inferior mejorado -->
+    <div class="mini-player">
+        <div class="mini-player-content">
+            <div class="mini-cover-container">
+                <img id="mini-album-cover" class="mini-album-cover" src="portada.jpg" alt="Portada">
+            </div>
+            
+            <div class="mini-info">
+                <div id="mini-song-title" class="mini-song-title">🎵 Demo Song Title - Elegant Player</div>
+                <div id="mini-artist-name" class="mini-artist-name">Amazing Artist - Radio Station</div>
+            </div>
+            
+            <div class="mini-controls">
+                <button id="mini-play-button" class="mini-play-button" onclick="togglePlayStop()">
+                    <svg class="mini-play-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="25" height="25">
+                        <path d="M8 5v14l11-7z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+    <!-- 🎄 Scripts de efectos navideños -->
+    <script src="christmas-effects.js"></script>
+</body>
+</html>

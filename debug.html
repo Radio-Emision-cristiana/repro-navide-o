@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>🎄 Debug Visualizador Navideño ❄️</title>
+    <link rel="stylesheet" href="christmas-theme.css">
+    <style>
+        body { 
+            background: #1a237e; 
+            color: white; 
+            font-family: Arial; 
+            padding: 20px; 
+        }
+        .test-buttons {
+            margin: 20px 0;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background: #0d47a1;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .mini-equalizer-container {
+            position: fixed;
+            bottom: 80px;
+            left: 0;
+            right: 0;
+            width: 100vw;
+            height: calc(100vh - 350px);
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.1), transparent);
+            z-index: 1;
+            overflow: hidden;
+        }
+        .mini-equalizer-bar {
+            width: 3px;
+            border-radius: 2px;
+            transform-origin: bottom;
+            opacity: 0.7;
+            height: 5%;
+            transition: height 0.1s ease;
+        }
+        .mini-equalizer-bar:nth-child(15n + 1) { background: linear-gradient(to top, #ff0000, #ff4500); }
+        .mini-equalizer-bar:nth-child(15n + 2) { background: linear-gradient(to top, #ff4500, #ff8c00); }
+        .mini-equalizer-bar:nth-child(15n + 3) { background: linear-gradient(to top, #ff8c00, #ffd700); }
+        .mini-equalizer-bar:nth-child(15n + 4) { background: linear-gradient(to top, #ffd700, #adff2f); }
+        .mini-equalizer-bar:nth-child(15n + 5) { background: linear-gradient(to top, #adff2f, #00ff00); }
+        .mini-equalizer-bar:nth-child(15n + 6) { background: linear-gradient(to top, #00ff00, #00ff7f); }
+        .mini-equalizer-bar:nth-child(15n + 7) { background: linear-gradient(to top, #00ff7f, #00ffff); }
+        .mini-equalizer-bar:nth-child(15n + 8) { background: linear-gradient(to top, #00ffff, #007fff); }
+        .mini-equalizer-bar:nth-child(15n + 9) { background: linear-gradient(to top, #007fff, #0000ff); }
+        .mini-equalizer-bar:nth-child(15n + 10) { background: linear-gradient(to top, #0000ff, #4169e1); }
+        .mini-equalizer-bar:nth-child(15n + 11) { background: linear-gradient(to top, #4169e1, #8a2be2); }
+        .mini-equalizer-bar:nth-child(15n + 12) { background: linear-gradient(to top, #8a2be2, #da70d6); }
+        .mini-equalizer-bar:nth-child(15n + 13) { background: linear-gradient(to top, #da70d6, #ff1493); }
+        .mini-equalizer-bar:nth-child(15n + 14) { background: linear-gradient(to top, #ff1493, #ff69b4); }
+        .mini-equalizer-bar:nth-child(15n) { background: linear-gradient(to top, #ff69b4, #ff0000); }
+
+        @keyframes fallbackEqualize {
+            0% { height: 20%; opacity: 0.6; }
+            15% { height: 70%; opacity: 0.9; }
+            30% { height: 40%; opacity: 0.7; }
+            45% { height: 85%; opacity: 1; }
+            60% { height: 30%; opacity: 0.6; }
+            75% { height: 60%; opacity: 0.8; }
+            90% { height: 25%; opacity: 0.5; }
+            100% { height: 20%; opacity: 0.6; }
+        }
+    </style>
+</head>
+<body>
+    <h1>Debug del Visualizador</h1>
+    <div class="test-buttons">
+        <button onclick="testAnimation()">Test Animación</button>
+        <button onclick="stopAnimation()">Parar Animación</button>
+        <button onclick="playAudio()">Play Audio</button>
+        <button onclick="pauseAudio()">Pause Audio</button>
+    </div>
+    
+    <div class="mini-equalizer-container">
+        <!-- 50 barras para test -->
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+        <div class="mini-equalizer-bar"></div>
+    </div>
+
+    <audio id="audio-player" src="https://stream.zeno.fm/yg7bvksbfwzuv" preload="auto"></audio>
+
+    <script>
+        const audio = document.getElementById('audio-player');
+        
+        function testAnimation() {
+            console.log('Iniciando test de animación...');
+            const bars = document.querySelectorAll('.mini-equalizer-bar');
+            console.log(`Barras encontradas: ${bars.length}`);
+            
+            bars.forEach((bar, index) => {
+                const duration = 0.8 + (index % 5) * 0.3;
+                const delay = (index * 0.05);
+                bar.style.animation = `fallbackEqualize ${duration}s ease-in-out infinite`;
+                bar.style.animationDelay = `${delay}s`;
+                console.log(`Barra ${index}: animación aplicada`);
+            });
+        }
+        
+        function stopAnimation() {
+            console.log('Parando animación...');
+            const bars = document.querySelectorAll('.mini-equalizer-bar');
+            bars.forEach(bar => {
+                bar.style.animation = 'none';
+                bar.style.height = '5%';
+            });
+        }
+        
+        function playAudio() {
+            console.log('Reproduciendo audio...');
+            audio.play().then(() => {
+                console.log('Audio reproduciéndose');
+                testAnimation();
+            }).catch(error => {
+                console.error('Error al reproducir:', error);
+            });
+        }
+        
+        function pauseAudio() {
+            console.log('Pausando audio...');
+            audio.pause();
+            stopAnimation();
+        }
+    </script>
+    
+    <!-- 🎄 Scripts de efectos navideños -->
+    <script src="christmas-effects.js"></script>
+</body>
+</html>

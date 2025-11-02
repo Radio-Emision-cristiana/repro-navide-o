@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Sin Outlines</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+        }
+        
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        
+        .test-button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .test-button:hover {
+            transform: scale(1.05);
+            background: linear-gradient(135deg, #ee5a24, #ff6b6b);
+        }
+        
+        .test-input {
+            padding: 10px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+        }
+        
+        .test-link {
+            color: #ffeb3b;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+        
+        .test-link:hover {
+            background: rgba(255, 235, 59, 0.2);
+        }
+        
+        .mini-player-test {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.1));
+            backdrop-filter: blur(30px) saturate(180%);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 1000;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .mini-player-test:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .mini-album-art {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .mini-album-art:hover {
+            transform: scale(1.1) rotate(3deg);
+        }
+        
+        .mini-control-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .mini-control-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .progress-test {
+            flex: 1;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            margin: 0 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .progress-test:hover {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🎵 Test - Eliminación de Outlines</h1>
+        <p>Haz clic en todos los elementos para verificar que no aparezcan outlines azules o de cualquier color.</p>
+        
+        <div class="test-section">
+            <h2>Botones de Prueba</h2>
+            <button class="test-button">Botón 1 - Haz Clic</button>
+            <button class="test-button">Botón 2 - Sin Outline</button>
+            <button class="test-button">Botón 3 - Prueba Focus</button>
+        </div>
+        
+        <div class="test-section">
+            <h2>Inputs de Prueba</h2>
+            <input type="text" class="test-input" placeholder="Campo de texto - haz clic aquí">
+            <input type="email" class="test-input" placeholder="Email - sin outline">
+            <input type="password" class="test-input" placeholder="Password - prueba focus">
+        </div>
+        
+        <div class="test-section">
+            <h2>Enlaces de Prueba</h2>
+            <a href="#" class="test-link">Enlace 1 - Haz clic</a>
+            <a href="#" class="test-link">Enlace 2 - Sin outline</a>
+            <a href="#" class="test-link">Enlace 3 - Prueba hover</a>
+        </div>
+        
+        <div class="test-section">
+            <h2>Elementos Div Clickeables</h2>
+            <div class="test-button" style="display: inline-block;">Div Clickeable 1</div>
+            <div class="test-button" style="display: inline-block;">Div Clickeable 2</div>
+            <div class="test-button" style="display: inline-block;">Div Clickeable 3</div>
+        </div>
+        
+        <div class="test-section">
+            <h2>Simulación Mini Player</h2>
+            <p>El mini player en la parte inferior también debe estar libre de outlines:</p>
+        </div>
+        
+        <div style="height: 100px;"></div>
+        <p style="text-align: center; margin-top: 50px;">
+            ✅ Si no ves ningún outline azul, borde de focus o resaltado en ningún elemento, 
+            <br>¡la eliminación fue exitosa!
+        </p>
+    </div>
+    
+    <!-- Mini Player Simulado -->
+    <div class="mini-player-test">
+        <div class="mini-album-art"></div>
+        <div style="flex: 1; margin-left: 15px;">
+            <div style="font-weight: bold; font-size: 14px;">Canción de Prueba</div>
+            <div style="font-size: 12px; opacity: 0.8;">Artista de Prueba</div>
+        </div>
+        <div class="progress-test"></div>
+        <button class="mini-control-btn">▶</button>
+        <button class="mini-control-btn">⏭</button>
+    </div>
+
+    <script>
+        // Agregar eventos para hacer los elementos más interactivos
+        document.querySelectorAll('.test-button, .test-link, .mini-album-art, .mini-control-btn, .progress-test').forEach(element => {
+            element.addEventListener('click', function(e) {
+                e.preventDefault();
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            });
+        });
+        
+        // Hacer los divs clickeables focusables
+        document.querySelectorAll('div[style*="inline-block"]').forEach(div => {
+            div.setAttribute('tabindex', '0');
+        });
+        
+        // Mensaje de confirmación
+        setTimeout(() => {
+            console.log('🎯 Test de Outlines: Haz clic y navega con TAB por todos los elementos para verificar que no aparezcan outlines.');
+        }, 1000);
+    </script>
+</body>
+</html>

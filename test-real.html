@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Test Reproductor Real</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            padding: 20px;
+        }
+        
+        .debug-panel {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            width: 300px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            font-family: monospace;
+            font-size: 12px;
+            z-index: 9999;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .debug-panel h3 {
+            margin: 0 0 10px 0;
+            color: #4CAF50;
+        }
+        
+        .debug-panel button {
+            display: block;
+            width: 100%;
+            margin: 5px 0;
+            padding: 5px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        
+        .debug-panel button:hover {
+            background: #45a049;
+        }
+        
+        #debug-log {
+            background: rgba(255,255,255,0.1);
+            padding: 10px;
+            border-radius: 5px;
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Panel de debug -->
+    <div class="debug-panel">
+        <h3>🔧 Debug Panel</h3>
+        <button onclick="testAudio()">🎵 Test Audio</button>
+        <button onclick="testVisualizer()">📊 Test Visualizador</button>
+        <button onclick="testPlayButton()">▶️ Test Botón</button>
+        <button onclick="clearLog()">🗑️ Clear Log</button>
+        <div id="debug-log"></div>
+    </div>
+
+    <!-- Usar exactamente los mismos elementos que el reproductor real -->
+    <div class="player">
+        <div class="album-cover-container">
+            <img id="album-cover" class="album-cover" src="portada.jpg" alt="Album Cover"> 
+            <div class="album-cover-overlay"></div>
+        </div>
+
+        <div class="audio-info">
+            <div class="metadata-row-1">
+                <div id="song-title">Test Song</div>
+            </div>
+            <div class="metadata-row-2">
+                <div id="artist-name">Test Artist</div>
+            </div>
+        </div>
+
+        <audio id="audio-player" src="https://stream.zeno.fm/yg7bvksbfwzuv" preload="auto"></audio> 
+
+        <!-- Mini reproductor -->
+        <div class="mini-player">
+            <div class="mini-player-content">
+                <div class="mini-album-cover-container">
+                    <img id="mini-album-cover" class="mini-album-cover" src="portada.jpg" alt="Album Cover">
+                </div>
+                
+                <div class="mini-audio-info">
+                    <div id="mini-song-title" class="mini-song-title">Test Song</div>
+                    <div id="mini-artist-name" class="mini-artist-name">Test Artist</div>
+                </div>
+                
+                <div class="mini-controls">
+                    <button id="mini-play-button" class="mini-play-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="25" height="25">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                    </button>
+                    
+                    <div class="mini-volume-control">
+                        <input type="range" id="mini-volume-slider" class="mini-volume-slider" min="0" max="1" step="0.1" value="0.7">
+                    </div>
+                </div>
+                
+                <div class="live-indicator">
+                    <span class="live-dot"></span>
+                    <span>EN VIVO</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Visualizador superior -->
+        <div class="mini-equalizer-container">
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+            <div class="mini-equalizer-bar"></div>
+        </div>
+    </div>
+
+    <script>
+        const audio = document.getElementById('audio-player');
+        const miniPlayButton = document.getElementById('mini-play-button');
+        const debugLog = document.getElementById('debug-log');
+        
+        function log(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            debugLog.innerHTML += `[${timestamp}] ${message}<br>`;
+            debugLog.scrollTop = debugLog.scrollHeight;
+            console.log(message);
+        }
+        
+        function clearLog() {
+            debugLog.innerHTML = '';
+        }
+        
+        function testAudio() {
+            log('🎵 Testing audio...');
+            
+            if (!audio) {
+                log('❌ Audio element not found!');
+                return;
+            }
+            
+            log('📡 Audio src: ' + audio.src);
+            log('🔧 Audio ready state: ' + audio.readyState);
+            
+            audio.play()
+                .then(() => {
+                    log('✅ Audio playing successfully');
+                })
+                .catch(error => {
+                    log('❌ Audio error: ' + error.message);
+                });
+        }
+        
+        function testVisualizer() {
+            log('📊 Testing visualizer...');
+            
+            const bars = document.querySelectorAll('.mini-equalizer-bar');
+            log('🔍 Found ' + bars.length + ' bars');
+            
+            if (bars.length === 0) {
+                log('❌ No visualizer bars found!');
+                return;
+            }
+            
+            // Test simple CSS animation
+            bars.forEach((bar, index) => {
+                bar.style.animation = `fallbackEqualize ${0.8 + (index % 3) * 0.2}s ease-in-out infinite`;
+                bar.style.animationDelay = `${(index * 0.03)}s`;
+            });
+            
+            log('✅ Visualizer animation applied');
+        }
+        
+        function testPlayButton() {
+            log('▶️ Testing play button...');
+            
+            if (!miniPlayButton) {
+                log('❌ Play button not found!');
+                return;
+            }
+            
+            log('🔍 Button found, simulating click...');
+            miniPlayButton.click();
+        }
+        
+        // Event listeners para debugging
+        if (audio) {
+            audio.addEventListener('play', () => log('🎵 Audio PLAY event'));
+            audio.addEventListener('pause', () => log('⏸️ Audio PAUSE event'));
+            audio.addEventListener('error', (e) => log('❌ Audio ERROR: ' + e.type));
+            audio.addEventListener('canplay', () => log('✅ Audio CAN PLAY'));
+            audio.addEventListener('loadstart', () => log('📥 Audio LOAD START'));
+            audio.addEventListener('waiting', () => log('⏳ Audio WAITING'));
+            audio.addEventListener('playing', () => log('▶️ Audio PLAYING'));
+        }
+        
+        log('📱 Test page loaded');
+        log('🔍 Audio element: ' + (audio ? 'Found' : 'NOT FOUND'));
+        log('🔍 Play button: ' + (miniPlayButton ? 'Found' : 'NOT FOUND'));
+        log('🔍 Bars: ' + document.querySelectorAll('.mini-equalizer-bar').length);
+    </script>
+    
+    <!-- Cargar nuestro script ultra simple -->
+    <script src="main.js"></script>
+</body>
+</html>

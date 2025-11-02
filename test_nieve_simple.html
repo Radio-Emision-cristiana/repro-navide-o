@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>❄️ Test Nieve Blanca Simple</title>
+    <link rel="stylesheet" href="christmas-theme.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f4c3a 0%, #1e5f47 25%, #2d4a22 50%, #1a3d2e 75%, #0f2419 100%);
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        
+        .test-info {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            z-index: 2000;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .test-button {
+            background: linear-gradient(45deg, #c41e3a, #228b22);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 10px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .test-button:hover {
+            box-shadow: 0 6px 20px rgba(196, 30, 58, 0.5);
+            transform: translateY(-2px);
+        }
+        
+        .content {
+            margin-top: 150px;
+        }
+        
+        h1 {
+            color: #ffd700;
+            text-shadow: 0 2px 10px rgba(255, 215, 0, 0.5);
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+        
+        .effects-info {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 600px;
+            backdrop-filter: blur(5px);
+        }
+    </style>
+</head>
+<body class="christmas-theme">
+    <div class="test-info">
+        <h3>🧪 Test de Nieve Blanca Simplificada</h3>
+        <p><strong>Elementos esperados:</strong> Solo 30 copos de nieve blanca ❄️</p>
+        <button class="test-button" onclick="simulateMusic()">🎵 Simular Música (+10 copos)</button>
+        <button class="test-button" onclick="countElements()">📊 Contar Copos</button>
+        <p id="elementCount" style="color: #ffd700; font-weight: bold;"></p>
+    </div>
+    
+    <div class="content">
+        <h1>🎄 Test Nieve Blanca Simple ❄️</h1>
+        
+        <div class="effects-info">
+            <h3>✨ Efecto Activo</h3>
+            <ul style="text-align: left;">
+                <li>❄️ <strong>Nieve Blanca:</strong> 30 copos cayendo con rotación</li>
+                <li>❌ <strong>Bolas:</strong> Eliminadas</li>
+                <li>❌ <strong>Bombillos:</strong> Eliminados</li>
+            </ul>
+        </div>
+        
+        <div class="effects-info">
+            <h3>🌟 Características de la Nieve</h3>
+            <ul style="text-align: left;">
+                <li>❄️ Símbolos: ❄, ❅, ❆, ✻, ✼, ❈, ❉, ❊</li>
+                <li>🔄 Velocidad aleatoria: 5-15 segundos por copo</li>
+                <li>📊 Tamaños variables: 0.5em - 1.3em</li>
+                <li>🎵 Efecto extra durante música: +10 copos</li>
+            </ul>
+        </div>
+        
+        <p style="margin-top: 50px; font-size: 1.2em;">
+            🎅 ¡Solo nieve blanca elegante y minimalista! 🎄
+        </p>
+    </div>
+
+    <script src="christmas-effects.js"></script>
+    <script>
+        function simulateMusic() {
+            // Simular evento de reproducción de música
+            document.dispatchEvent(new Event('play'));
+            
+            // Cambiar texto del botón temporalmente
+            const btn = event.target;
+            const originalText = btn.textContent;
+            btn.textContent = '🎵 ¡Copos Extra Activos!';
+            btn.style.background = 'linear-gradient(45deg, #ffd700, #ff4500)';
+            
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.style.background = 'linear-gradient(45deg, #c41e3a, #228b22)';
+            }, 5000);
+        }
+        
+        function countElements() {
+            const snowflakes = document.querySelectorAll('.snowflake').length;
+            const ornaments = document.querySelectorAll('.christmas-ornament').length;
+            const bulbs = document.querySelectorAll('.christmas-bulb').length;
+            
+            let message = `📊 Conteo actual: ${snowflakes} copos de nieve ❄️`;
+            
+            if (ornaments > 0 || bulbs > 0) {
+                message += `<br><span style="color: #ff4444;">⚠️ Encontrados elementos no deseados: ${ornaments} bolas + ${bulbs} bombillos</span>`;
+            } else {
+                message += `<br><span style="color: #44ff44;">✅ ¡Perfecto! Solo nieve blanca</span>`;
+            }
+            
+            document.getElementById('elementCount').innerHTML = message;
+        }
+        
+        // Contar elementos automáticamente cada 3 segundos
+        setInterval(countElements, 3000);
+        
+        // Mensaje de bienvenida específico para la prueba
+        setTimeout(() => {
+            if (window.christmasEffects) {
+                const message = document.createElement('div');
+                message.style.cssText = `
+                    position: fixed;
+                    bottom: 30px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    z-index: 2001;
+                    background: rgba(196, 30, 58, 0.9);
+                    backdrop-filter: blur(10px);
+                    border: 1px solid rgba(255, 215, 0, 0.5);
+                    border-radius: 25px;
+                    padding: 15px 25px;
+                    color: white;
+                    font-size: 0.9em;
+                    font-weight: 600;
+                    text-align: center;
+                    box-shadow: 0 8px 32px rgba(196, 30, 58, 0.4);
+                    max-width: 90vw;
+                `;
+                message.innerHTML = '🧪 MODO TEST: Solo nieve blanca simplificada ❄️';
+                document.body.appendChild(message);
+                
+                setTimeout(() => {
+                    message.style.transition = 'all 1s ease';
+                    message.style.opacity = '0';
+                    setTimeout(() => message.remove(), 1000);
+                }, 6000);
+            }
+        }, 2000);
+    </script>
+</body>
+</html>

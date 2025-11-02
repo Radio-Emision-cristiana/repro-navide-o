@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificación Posición Mini Reproductor</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            min-height: 200vh; /* Extra altura para verificar que esté fijo */
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: #333;
+        }
+        
+        .test-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px 120px;
+        }
+        
+        .scroll-indicator {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 50px;
+            text-align: center;
+            border: 2px solid #4a90e2;
+        }
+        
+        .content-block {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            min-height: 300px;
+        }
+        
+        .position-test {
+            font-size: 2em;
+            color: #4a90e2;
+            font-weight: bold;
+            text-align: center;
+            margin: 50px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-content">
+        <div class="scroll-indicator">
+            <h2>🔧 Verificación de Posición del Mini Reproductor</h2>
+            <p><strong>El mini reproductor debe permanecer fijo en la parte inferior durante el scroll</strong></p>
+            <p>Haz scroll hacia abajo para verificar que se mantiene en su lugar</p>
+        </div>
+        
+        <div class="content-block">
+            <h3>Bloque de Contenido 1</h3>
+            <p>Este es contenido de prueba para verificar que el mini reproductor se mantiene fijo en la parte inferior independientemente del scroll. El reproductor debe estar siempre visible con su hermoso degradado.</p>
+        </div>
+        
+        <div class="content-block">
+            <h3>Bloque de Contenido 2</h3>
+            <p>Más contenido para generar scroll y probar que la posición fixed funciona correctamente. El degradado azul del mini reproductor debe verse perfecto.</p>
+        </div>
+        
+        <div class="position-test">
+            ↓ SCROLL HACIA ABAJO ↓
+        </div>
+        
+        <div class="content-block">
+            <h3>Bloque de Contenido 3</h3>
+            <p>Continuamos agregando contenido para verificar que el mini reproductor permanece fijo. Sus efectos visuales deben funcionar perfectamente.</p>
+        </div>
+        
+        <div class="content-block">
+            <h3>Bloque de Contenido 4</h3>
+            <p>El mini reproductor debe estar siempre visible en la parte inferior con su degradado vibrante, efectos de hover y funcionalidad completa.</p>
+        </div>
+        
+        <div class="position-test">
+            ✅ POSICIÓN VERIFICADA
+        </div>
+        
+        <div class="content-block">
+            <h3>Final del Contenido</h3>
+            <p>Si llegaste hasta aquí y el mini reproductor sigue visible en la parte inferior, ¡la posición está perfecta!</p>
+        </div>
+    </div>
+
+    <!-- Audio player -->
+    <audio id="audio-player" preload="none">
+        <source src="https://stream.zeno.fm/0r0xa792kwzuv" type="audio/mpeg">
+    </audio>
+
+    <!-- Mini reproductor - debe estar fijo en la parte inferior -->
+    <div class="mini-player">
+        <div class="mini-player-content">
+            <div class="mini-cover-container">
+                <img id="mini-album-cover" class="mini-album-cover" src="portada.jpg" alt="Portada">
+            </div>
+            
+            <div class="mini-info">
+                <div id="mini-song-title" class="mini-song-title">✅ Posición Verificada - Mini Reproductor</div>
+                <div id="mini-artist-name" class="mini-artist-name">Fijo en la parte inferior - Test OK</div>
+            </div>
+            
+            <div class="mini-controls">
+                <button id="mini-play-button" class="mini-play-button" onclick="togglePlayStop()">
+                    <svg class="mini-play-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="25" height="25">
+                        <path d="M8 5v14l11-7z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>

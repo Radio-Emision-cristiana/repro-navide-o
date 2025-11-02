@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Debug Básico</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #333;
+            color: white;
+        }
+        
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .visualizer {
+            display: flex;
+            align-items: end;
+            height: 60px;
+            gap: 2px;
+            margin: 20px 0;
+            background: rgba(255,255,255,0.1);
+            padding: 10px;
+            border-radius: 5px;
+        }
+        
+        .bar {
+            width: 4px;
+            height: 10%;
+            background: linear-gradient(to top, #ff0000, #ffff00);
+            border-radius: 2px;
+        }
+        
+        @keyframes simpleAnimation {
+            0% { height: 10%; }
+            50% { height: 80%; }
+            100% { height: 10%; }
+        }
+        
+        .animated .bar {
+            animation: simpleAnimation 0.8s ease-in-out infinite;
+        }
+        
+        .animated .bar:nth-child(2n) { animation-delay: 0.1s; }
+        .animated .bar:nth-child(3n) { animation-delay: 0.2s; }
+        
+        .status {
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(0,0,0,0.5);
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Debug Básico</h1>
+        
+        <div class="status" id="status">Listo</div>
+        
+        <button onclick="testAudio()">Test Audio</button>
+        <button onclick="testAnimation()">Test Animación</button>
+        <button onclick="stopAll()">Parar</button>
+        
+        <audio id="audio" controls>
+            <source src="https://stream.zeno.fm/yg7bvksbfwzuv" type="audio/mpeg">
+        </audio>
+        
+        <div class="visualizer" id="visualizer"></div>
+        
+        <div class="status" id="log"></div>
+    </div>
+
+    <script>
+        const audio = document.getElementById('audio');
+        const visualizer = document.getElementById('visualizer');
+        const status = document.getElementById('status');
+        const log = document.getElementById('log');
+        
+        // Crear barras
+        for (let i = 0; i < 20; i++) {
+            const bar = document.createElement('div');
+            bar.className = 'bar';
+            visualizer.appendChild(bar);
+        }
+        
+        function updateLog(message) {
+            log.innerHTML += message + '<br>';
+            console.log(message);
+        }
+        
+        function testAudio() {
+            updateLog('Probando audio...');
+            status.textContent = 'Probando audio...';
+            
+            audio.play()
+                .then(() => {
+                    updateLog('✅ Audio funcionando');
+                    status.textContent = 'Audio OK';
+                })
+                .catch(error => {
+                    updateLog('❌ Error: ' + error.message);
+                    status.textContent = 'Error de audio';
+                });
+        }
+        
+        function testAnimation() {
+            updateLog('Probando animación...');
+            status.textContent = 'Probando animación...';
+            
+            visualizer.classList.add('animated');
+            
+            setTimeout(() => {
+                updateLog('✅ Animación activada');
+                status.textContent = 'Animación OK';
+            }, 500);
+        }
+        
+        function stopAll() {
+            updateLog('Parando todo...');
+            audio.pause();
+            visualizer.classList.remove('animated');
+            status.textContent = 'Parado';
+        }
+        
+        // Event listeners básicos
+        audio.addEventListener('play', () => updateLog('🎵 Audio iniciado'));
+        audio.addEventListener('pause', () => updateLog('⏸️ Audio pausado'));
+        audio.addEventListener('error', (e) => updateLog('❌ Error de audio: ' + e.type));
+        
+        updateLog('Página cargada');
+    </script>
+</body>
+</html>
